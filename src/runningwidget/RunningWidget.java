@@ -14,7 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class RunningWidget {
-
+	
 	public static String splitCalculator(String time, Double distance) {
 		
 		// Variables
