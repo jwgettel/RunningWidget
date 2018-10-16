@@ -61,7 +61,6 @@ public class RunningWidget {
 		
 	public static void recordData(Double distance, String time, String split, String file) {
 		try {
-
 			// Open output file
 			FileInputStream fsIP = new FileInputStream(new File(file));  
 			XSSFWorkbook wb = new XSSFWorkbook(fsIP);

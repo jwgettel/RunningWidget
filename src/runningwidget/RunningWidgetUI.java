@@ -13,8 +13,9 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.border.MatteBorder;
 
 public class RunningWidgetUI {
 
@@ -40,7 +41,6 @@ public class RunningWidgetUI {
 		});
 	}
 
-	
 	/**
 	 * Create the application.
 	 * @throws FileNotFoundException 
@@ -57,32 +57,43 @@ public class RunningWidgetUI {
 		
 		// Main GUI Frame
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.getContentPane().setBackground(new Color(128, 128, 128));
+		frame.setBounds(100, 100, 370, 195);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+		//************************
+		// INPUT PANEL
+		JPanel inputPanel = new JPanel();
+		inputPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		inputPanel.setBackground(new Color(30, 144, 255));
+		inputPanel.setBounds(5, 5, 360, 80);
+		frame.getContentPane().add(inputPanel);
+		
 		// Distance Label
 		JLabel lblDistance = new JLabel("Distance:");
+		lblDistance.setFont(new Font("Dialog", Font.PLAIN, 13));
 		lblDistance.setLabelFor(distanceInput);
-		lblDistance.setBounds(5, 5, 61, 16);
+		lblDistance.setBounds(10, 10, 60, 15);
 		frame.getContentPane().add(lblDistance);
 		
 		// Distance Input
 		distanceInput = new JTextField();
-		distanceInput.setBounds(5, 21, 137, 32);
+		distanceInput.setBounds(10, 25, 150, 30);
 		frame.getContentPane().add(distanceInput);
 		distanceInput.setColumns(10);
 		
 		// Time Label
 		JLabel lblTime = new JLabel("Time: (x:xx:xx) or (xx:xx)");
 		lblTime.setLabelFor(timeInput);
-		lblTime.setBounds(177, 5, 189, 16);
+		lblTime.setFont(new Font("Dialog", Font.PLAIN, 13));
+		lblTime.setBounds(175, 10, 180, 15);
 		frame.getContentPane().add(lblTime);
 		
 		// Time Input
 		timeInput = new JTextField();
 		timeInput.setColumns(10);
-		timeInput.setBounds(177, 21, 137, 32);
+		timeInput.setBounds(175, 25, 150, 30);
 		frame.getContentPane().add(timeInput);
 		
 		// Record Data Button
@@ -115,43 +126,51 @@ public class RunningWidgetUI {
 				}
 			}
 		});
-		btnRecord.setBounds(5, 61, 117, 29);
+		btnRecord.setBounds(10, 55, 100, 25);
 		frame.getContentPane().add(btnRecord);
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(UIManager.getColor("FormattedTextField.selectionBackground"));
-		panel.setBounds(5, 6, 439, 95);
-		frame.getContentPane().add(panel);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(UIManager.getColor("FormattedTextField.selectionBackground"));
-		panel_1.setBounds(5, 113, 439, 29);
-		frame.getContentPane().add(panel_1);
-		
-				// Split Time Label
-				JLabel lblSplit = new JLabel("Split:");
-				lblSplit.setHorizontalAlignment(SwingConstants.LEFT);
-				panel_1.add(lblSplit);
 				
-				// Split Time Output
-				splitOutput = new JTextField();
-				panel_1.add(splitOutput);
-				splitOutput.setColumns(10);
-				
-				JPanel panel_2 = new JPanel();
-				panel_2.setBackground(UIManager.getColor("FormattedTextField.selectionBackground"));
-				panel_2.setBounds(5, 154, 439, 36);
-				frame.getContentPane().add(panel_2);
-				
-				// Output File Label
-				JLabel lblOutputFile = new JLabel("Output File:");
-				lblOutputFile.setHorizontalAlignment(SwingConstants.LEFT);
-				panel_2.add(lblOutputFile);
-				
-				// Output File Input
-				outputFile = new JTextField(FilePath.retrieveFilePath());
-				panel_2.add(outputFile);
-				outputFile.setColumns(10);
+		//******************
+		// SPLIT TIME PANEL
+		JPanel splitPanel = new JPanel();
+		splitPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		splitPanel.setBackground(new Color(255, 140, 0));
+		splitPanel.setBounds(5, 90, 360, 35);
+		frame.getContentPane().add(splitPanel);
 		
+		// Split Time Label
+		JLabel lblSplit = new JLabel("Split:");
+		lblSplit.setFont(new Font("Dialog", Font.PLAIN, 13));
+		lblSplit.setBounds(10, 95, 35, 25);
+		frame.getContentPane().add(lblSplit);
+						
+		// Split Time Output
+		splitOutput = new JTextField();
+		splitOutput.setBounds(85, 95, 130, 25);
+		frame.getContentPane().add(splitOutput);
+		splitOutput.setColumns(10);
+		lblSplit.setLabelFor(splitOutput);
+				
+		//******************
+		// OUTPUT FILE PANEL
+		JPanel outputFilePanel = new JPanel();
+		outputFilePanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		outputFilePanel.setBackground(new Color(50, 205, 50));
+		outputFilePanel.setBounds(5, 130, 360, 35);
+		frame.getContentPane().add(outputFilePanel);
+		
+		// Output File Label
+		JLabel lblOutputFile = new JLabel("Output File:");
+		lblOutputFile.setBackground(new Color(123, 104, 238));
+		lblOutputFile.setBounds(10, 135, 75, 25);
+		lblOutputFile.setFont(new Font("Dialog", Font.PLAIN, 13));
+		frame.getContentPane().add(lblOutputFile);
+						
+		// Output File Input
+		outputFile = new JTextField(FilePath.retrieveFilePath());
+		outputFile.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+		outputFile.setBounds(85, 135, 270, 25);
+		frame.getContentPane().add(outputFile);
+		outputFile.setColumns(10);
+
 	}
 }
