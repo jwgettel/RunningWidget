@@ -16,4 +16,5 @@ App calculates split time and records the data in an excel spreadsheet.
 ###############################################################################
 
 Things that could be improved:
-1. Manually select output file path
+1. Save output file path
+2. Manually select output file path
