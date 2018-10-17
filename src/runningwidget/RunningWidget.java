@@ -19,7 +19,7 @@ public class RunningWidget {
 		
 		// Variables
 		String split = "";
-		double splt;	
+		double raw_split;	
 		int hrs;
 		int mins;
 		int secs;
@@ -33,9 +33,9 @@ public class RunningWidget {
 			secs = Integer.parseInt(time.substring(3,5));
 			seconds = mins * 60 + secs;
 
-			splt = seconds / distance;
-			mins = (int) (splt / 60);
-			secs = (int) (splt % 60);
+			raw_split = seconds / distance;
+			mins = (int) (raw_split / 60);
+			secs = (int) (raw_split % 60);
 
 			split = String.valueOf(mins) + ":" + String.format("%02d", secs + 1);
 
@@ -48,9 +48,9 @@ public class RunningWidget {
 			secs = Integer.parseInt(time.substring(5,7));
 			seconds = hrs * 3600 + mins * 60 + secs;
 			
-			splt = seconds / distance;
-			mins = (int) (splt / 60);
-			secs = (int) (splt % 60);
+			raw_split = seconds / distance;
+			mins = (int) (raw_split / 60);
+			secs = (int) (raw_split % 60);
 			
 			split = String.valueOf(mins) + ":" + String.format("%02d", secs + 1);
 		
@@ -60,13 +60,15 @@ public class RunningWidget {
 	}
 		
 	public static void recordData(Double distance, String time, String split, String file) {
+		
 		try {
+		
 			// Open output file
 			FileInputStream fsIP = new FileInputStream(new File(file));  
 			XSSFWorkbook wb = new XSSFWorkbook(fsIP);
 			XSSFSheet worksheet = wb.getSheetAt(0); 
 				
-			// Find first empty row
+			// Find first empty row in existing sheet
 			int nextRow = 0;
 			while(worksheet.getRow(nextRow) != null) {
 				nextRow++;
@@ -77,15 +79,16 @@ public class RunningWidget {
 			Cell cell_1 = null;
 			Cell cell_2 = null;
 			Cell cell_3 = null;
-				
+			
+			// Create new empty row
 			worksheet.createRow(nextRow);
 			cell_0 = worksheet.getRow(nextRow).createCell(0);   
 			cell_1 = worksheet.getRow(nextRow).createCell(1);
 			cell_2 = worksheet.getRow(nextRow).createCell(2);
 			cell_3 = worksheet.getRow(nextRow).createCell(3);
 
-			
-			DateFormat df = new SimpleDateFormat("MMM-dd");
+			// Get today's date
+			DateFormat df = new SimpleDateFormat("dd-MMM");
 			Date today = Calendar.getInstance().getTime();
 			String date = df.format(today);
 				
@@ -95,17 +98,22 @@ public class RunningWidget {
 			cell_2.setCellValue(time);
 			cell_3.setCellValue(split);
 				
+			// Close file
 			fsIP.close(); 
 			
-			// Save data to output file
+			// Open file, save data, close file
 			FileOutputStream output_file = new FileOutputStream(new File(file));  		
 			wb.write(output_file);
 			output_file.close();
 	            
 		} catch (FileNotFoundException e) {
+			
 	    	e.printStackTrace();
+		
 		} catch (IOException e) {
+		
 			e.printStackTrace();
+		
 		}
 	}
 }

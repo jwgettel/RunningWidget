@@ -10,7 +10,8 @@ import java.io.PrintWriter;
 
 public class FilePath {
 	
-	// 
+	// Save output file path 
+	// This will be the default output file path until its changed
 	public static void saveFilePath(String filePath) throws IOException {
 		
 		FileWriter write = new FileWriter("src/filepath.txt");
@@ -20,10 +21,12 @@ public class FilePath {
 		
 	}
 	
-	// 
+	// Retrieve output file path from filepath.txt
+	// This is the the location of the file where the data will be recorded
 	public static String retrieveFilePath() throws FileNotFoundException {
 
 		try {
+
 			File file = new File("src/filepath.txt");
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -31,8 +34,11 @@ public class FilePath {
 			String filePath;
 			
 			while ((filePath = bufferedReader.readLine()) != null) {
+				
 				stringBuffer.append(filePath);
+				
 			}
+			
 			fileReader.close();
 			return stringBuffer.toString();
 			

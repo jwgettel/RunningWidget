@@ -3,6 +3,7 @@ package runningwidget;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -29,13 +30,20 @@ public class RunningWidgetUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
+			
 			public void run() {
+				
 				try {
+				
 					RunningWidgetUI window = new RunningWidgetUI();
 					window.frame.setVisible(true);
+				
 				} catch (Exception e) {
+				
 					e.printStackTrace();
+				
 				}
 			}
 		});
@@ -46,7 +54,9 @@ public class RunningWidgetUI {
 	 * @throws FileNotFoundException 
 	 */
 	public RunningWidgetUI() throws FileNotFoundException {
+		
 		initialize();
+	
 	}
 
 	/**
@@ -62,14 +72,8 @@ public class RunningWidgetUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		//************************
 		// INPUT PANEL
-		JPanel inputPanel = new JPanel();
-		inputPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		inputPanel.setBackground(new Color(30, 144, 255));
-		inputPanel.setBounds(5, 5, 360, 80);
-		frame.getContentPane().add(inputPanel);
-		
+		//************************
 		// Distance Label
 		JLabel lblDistance = new JLabel("Distance:");
 		lblDistance.setFont(new Font("Dialog", Font.PLAIN, 13));
@@ -109,34 +113,42 @@ public class RunningWidgetUI {
 				// Validate Inputs
 				Pattern r = Pattern.compile("((\\d+:)?([0-5]))?\\d:[0-5]\\d");
 				Matcher m = r.matcher(time);
-				if (m.find()) {
-					String split = RunningWidget.splitCalculator(time, dist);
-					String file = outputFile.getText();
-					RunningWidget.recordData(dist, time, split, file);
+				String file = outputFile.getText();
+				File outputLocation = new File(file);
+
+				// If file doesn't exists then clear field and do nothing
+				if (!outputLocation.exists()) {
+				
+					outputFile.setText("");
+				
+				// If time input isn't in correct format clear field and do nothing
+				} else if(!m.find()) {
 					
+					timeInput.setText("");
+					
+				} else {
+
+					String split = RunningWidget.splitCalculator(time, dist);
+					RunningWidget.recordData(dist, time, split, file);
 					splitOutput.setText(split);
 					try {
+						
 						FilePath.saveFilePath(file);
+					
 					} catch (IOException e1) {
+					
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
+					
 					}
-				} else {
-					timeInput.setText("");
 				}
 			}
 		});
 		btnRecord.setBounds(10, 55, 100, 25);
 		frame.getContentPane().add(btnRecord);
 				
+		// SPLIT TIME
 		//******************
-		// SPLIT TIME PANEL
-		JPanel splitPanel = new JPanel();
-		splitPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		splitPanel.setBackground(new Color(255, 140, 0));
-		splitPanel.setBounds(5, 90, 360, 35);
-		frame.getContentPane().add(splitPanel);
-		
 		// Split Time Label
 		JLabel lblSplit = new JLabel("Split:");
 		lblSplit.setFont(new Font("Dialog", Font.PLAIN, 13));
@@ -149,15 +161,10 @@ public class RunningWidgetUI {
 		frame.getContentPane().add(splitOutput);
 		splitOutput.setColumns(10);
 		lblSplit.setLabelFor(splitOutput);
-				
-		//******************
-		// OUTPUT FILE PANEL
-		JPanel outputFilePanel = new JPanel();
-		outputFilePanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		outputFilePanel.setBackground(new Color(50, 205, 50));
-		outputFilePanel.setBounds(5, 130, 360, 35);
-		frame.getContentPane().add(outputFilePanel);
+
 		
+		// OUTPUT FILE PANEL
+		//********************
 		// Output File Label
 		JLabel lblOutputFile = new JLabel("Output File:");
 		lblOutputFile.setBackground(new Color(123, 104, 238));
@@ -171,6 +178,27 @@ public class RunningWidgetUI {
 		outputFile.setBounds(85, 135, 270, 25);
 		frame.getContentPane().add(outputFile);
 		outputFile.setColumns(10);
+		
+		
+		// PANELS
+		//******************************
+		JPanel inputPanel = new JPanel();
+		inputPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		inputPanel.setBackground(new Color(30, 144, 255));
+		inputPanel.setBounds(5, 5, 360, 80);
+		frame.getContentPane().add(inputPanel);
+		
+		JPanel splitPanel = new JPanel();
+		splitPanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		splitPanel.setBackground(new Color(255, 140, 0));
+		splitPanel.setBounds(5, 90, 360, 35);
+		frame.getContentPane().add(splitPanel);
+		
+		JPanel outputFilePanel = new JPanel();
+		outputFilePanel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		outputFilePanel.setBackground(new Color(50, 205, 50));
+		outputFilePanel.setBounds(5, 130, 360, 35);
+		frame.getContentPane().add(outputFilePanel);
 
 	}
 }
