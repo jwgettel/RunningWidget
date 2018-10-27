@@ -1,50 +1,60 @@
 package runningwidget;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.OutputStream;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class FilePath {
 	
+	static String configFilePath = "src/config.properties";
 	// Save output file path 
 	// This will be the default output file path until its changed
-	public static void saveFilePath(String filePath) throws IOException {
+	public static void saveFilePath(String filePath) {
+
+		Properties prop = new Properties();
+		OutputStream output = null;
 		
-		FileWriter write = new FileWriter("src/filepath.txt");
-		PrintWriter print_line = new PrintWriter(write);
-		print_line.printf("%s" + "%n", filePath);
-		print_line.close();
-		
+		try {
+			output = new FileOutputStream(configFilePath);
+			prop.setProperty("filepath",  filePath);
+			prop.store(output, null);
+		} catch (IOException io) {
+			io.printStackTrace();
+		} finally {
+			if(output != null) {
+				try {
+					output.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	// Retrieve output file path from filepath.txt
 	// This is the the location of the file where the data will be recorded
-	public static String retrieveFilePath() throws FileNotFoundException {
+	public static String retrieveFilePath() {
 
+		Properties prop = new Properties();
+		InputStream input = null;
+		
 		try {
-
-			File file = new File("src/filepath.txt");
-			FileReader fileReader = new FileReader(file);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			StringBuffer stringBuffer = new StringBuffer();
-			String filePath;
-			
-			while ((filePath = bufferedReader.readLine()) != null) {
-				
-				stringBuffer.append(filePath);
-				
+			input = new FileInputStream(configFilePath);
+			prop.load(input);
+			return prop.getProperty("filepath");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-			
-			fileReader.close();
-			return stringBuffer.toString();
-			
-		} catch (IOException e) {
-			
-			e.printStackTrace();
 		}
 		return "";
 	}

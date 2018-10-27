@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -131,16 +130,7 @@ public class RunningWidgetUI {
 					String split = RunningWidget.splitCalculator(time, dist);
 					RunningWidget.recordData(dist, time, split, file);
 					splitOutput.setText(split);
-					try {
-						
-						FilePath.saveFilePath(file);
-					
-					} catch (IOException e1) {
-					
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					
-					}
+					FilePath.saveFilePath(file);
 				}
 			}
 		});
